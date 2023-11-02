@@ -1,10 +1,17 @@
 import React, { useState } from "react"
 
-export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: ""
-  });
+export default function Order() {
+  const [formData, setFormData] = useState(
+    {
+      productCode: "",
+      amount: "",
+      value: "",
+      ipi: "",
+      icms: "",
+      iss: "",
+    },
+
+  );
 
   const [formSuccess, setFormSuccess] = useState(false)
   const [formSuccessMessage, setFormSuccessMessage] = useState("")
@@ -19,51 +26,82 @@ export default function Contact() {
     }));
   }
 
-  const  submitForm = async (e) => {
+  const submitForm = (e) => {
     // We don't want the page to refresh
     e.preventDefault()
-
     const formURL = e.target.action
-    const data = new FormData()
-
-    // Turn our formData state into data we can use with a form submission
-    Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
-    })
 
     // POST the data to the URL of the form
-   await fetch(formURL, {
+    fetch(formURL, {
       method: "POST",
-      body: data,
+      body: JSON.stringify({
+        "product":
+        {
+          "product_code": parseInt(formData.productCode),
+          "amount": parseInt(formData.amount),
+          "value": parseFloat(formData.value),
+        },
+        "taxes":
+        {
+          "ipi": parseFloat(formData.ipi),
+          "icms": parseFloat(formData.icms),
+          "iss": parseFloat(formData.iss)
+        }
+      }
+      ),
       headers: {
         'accept': 'application/json',
       },
     }).then((response) => response.json())
-    .then((data) => {
-      setFormData({ 
-        name: "", 
-        description: "", 
-      })
-      setFormSuccess(true)
-      setFormSuccessMessage(data.Id)
-    })
+      .then((data) => {
+        setFormData({
+          productCode: "",
+          amount: "",
+          value: "",
+          ipi: "",
+          icms: "",
+          iss: "",
+        })
+        setFormSuccess(true)
+        setFormSuccessMessage(data.Id)
+      }).catch((err) => {
+        setFormSuccess(true)
+        setFormSuccessMessage("Erro de conexão -> " + err.message )
+        console.log("Erro de conexão -> ", err.message)
+       })
   }
 
   return (
     <div>
       <h1>Order form</h1>
-      {formSuccess ? 
-        <div>{formSuccessMessage}</div> 
-        : 
+      {formSuccess ?
+        <div>{formSuccessMessage}</div>
+        :
         <form method="POST" action="http://localhost:8080/v1/order" onSubmit={submitForm}>
           <div>
-            <label>Name</label>
-            <input type="text" name="name" onChange={handleInput} value={formData.name} />
+            <label>Product Code</label>
+            <input type="text" name="productCode" onChange={handleInput} value={formData.productCode} />
+          </div>
+          <div>
+            <label>Amount</label>
+            <input type="text" name="amount" onChange={handleInput} value={formData.amount} />
+          </div>
+          <div>
+            <label>Value</label>
+            <input type="text" name="value" onChange={handleInput} value={formData.value} />
           </div>
 
           <div>
-            <label>Description</label>
-            <input type="text" name="description" onChange={handleInput} value={formData.description} />
+            <label>Ipi</label>
+            <input type="text" name="ipi" onChange={handleInput} value={formData.ipi} />
+          </div>
+          <div>
+            <label>Icms</label>
+            <input type="text" name="icms" onChange={handleInput} value={formData.icms} />
+          </div>
+          <div>
+            <label>Iss</label>
+            <input type="text" name="iss" onChange={handleInput} value={formData.iss} />
           </div>
 
           <button type="submit">Send message</button>

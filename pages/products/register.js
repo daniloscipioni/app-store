@@ -1,6 +1,6 @@
-import React, { useState } from "react"
 
-export default function Contact() {
+import React, { useState } from "react"
+export default function Product() {
   const [formData, setFormData] = useState({
     name: "",
     description: ""
@@ -19,42 +19,36 @@ export default function Contact() {
     }));
   }
 
-  const  submitForm = async (e) => {
+  const submitForm = (e) => {
     // We don't want the page to refresh
     e.preventDefault()
 
     const formURL = e.target.action
-    const data = new FormData()
-
-    // Turn our formData state into data we can use with a form submission
-    Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
-    })
 
     // POST the data to the URL of the form
-   await fetch(formURL, {
+    fetch(formURL, {
       method: "POST",
-      body: data,
+      body: JSON.stringify(formData),
       headers: {
         'accept': 'application/json',
       },
     }).then((response) => response.json())
-    .then((data) => {
-      setFormData({ 
-        name: "", 
-        description: "", 
+      .then((data) => {
+        setFormData({
+          name: "",
+          description: "",
+        })
+        setFormSuccess(true)
+        setFormSuccessMessage("ID CADASTRADO = " + data.Id + "\n" + "PRODUTO CADASTRADO = " + data.Name)
       })
-      setFormSuccess(true)
-      setFormSuccessMessage(data.Id)
-    })
   }
 
   return (
     <div>
       <h1>Product form</h1>
-      {formSuccess ? 
-        <div>{formSuccessMessage}</div> 
-        : 
+      {formSuccess ?
+        <div>{formSuccessMessage}</div>
+        :
         <form method="POST" action="http://localhost:8081/v1/products" onSubmit={submitForm}>
           <div>
             <label>Name</label>
