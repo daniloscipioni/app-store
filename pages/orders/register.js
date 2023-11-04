@@ -1,5 +1,6 @@
 import React, { useState } from "react"
-
+import Link from 'next/link'
+import List from "./list";
 export default function Order() {
   const [formData, setFormData] = useState(
     {
@@ -75,7 +76,11 @@ export default function Order() {
     <div>
       <h1>Order form</h1>
       {formSuccess ?
-        <div>{formSuccessMessage}</div>
+      <div>
+      {formSuccessMessage}
+      <Link href="/orders/list">Voltar</Link>
+      
+    </div>
         :
         <form method="POST" action="http://localhost:8080/v1/order" onSubmit={submitForm}>
           <div>
@@ -104,7 +109,8 @@ export default function Order() {
             <input type="text" name="iss" onChange={handleInput} value={formData.iss} />
           </div>
 
-          <button type="submit">Send message</button>
+          <button type="submit">Criar Ordem</button>
+          <Link href="/orders/list">Voltar</Link>
         </form>
       }
     </div>
