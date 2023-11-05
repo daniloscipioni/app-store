@@ -1,22 +1,12 @@
 import React, { useState } from "react"
 import Link from 'next/link'
 import List from "./list";
+import OrdersType from './types'
 export default function Order() {
-  const [formData, setFormData] = useState(
-    {
-      productCode: "",
-      amount: "",
-      value: "",
-      ipi: "",
-      icms: "",
-      iss: "",
-    },
-
-  );
+  const [formData, setFormData] = useState({OrdersType});
 
   const [formSuccess, setFormSuccess] = useState(false)
   const [formSuccessMessage, setFormSuccessMessage] = useState("")
-
   const handleInput = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
@@ -35,7 +25,8 @@ export default function Order() {
     // POST the data to the URL of the form
     fetch(formURL, {
       method: "POST",
-      body: JSON.stringify({
+      body: JSON.stringify(
+        {
         "product":
         {
           "product_code": parseInt(formData.productCode),
@@ -48,20 +39,15 @@ export default function Order() {
           "icms": parseFloat(formData.icms),
           "iss": parseFloat(formData.iss)
         }
-      }
-      ),
+     }
+     ),
       headers: {
         'accept': 'application/json',
       },
     }).then((response) => response.json())
       .then((data) => {
         setFormData({
-          productCode: "",
-          amount: "",
-          value: "",
-          ipi: "",
-          icms: "",
-          iss: "",
+          OrdersType
         })
         setFormSuccess(true)
         setFormSuccessMessage(data.Id)

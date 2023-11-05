@@ -1,13 +1,9 @@
 
 import React, { useState } from "react"
 import Link from 'next/link'
-import List from "./list";
-import { Html } from "next/document";
+import ProductType from './types'
 export default function Product() {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: ""
-  });
+  const [formData, setFormData] = useState({ProductType});
 
   const [formSuccess, setFormSuccess] = useState(false)
   const [formSuccessMessage, setFormSuccessMessage] = useState("")
@@ -37,10 +33,7 @@ export default function Product() {
       },
     }).then((response) => response.json())
       .then((data) => {
-        setFormData({
-          name: "",
-          description: "",
-        })
+        setFormData({ProductType})
         setFormSuccess(true)
         setFormSuccessMessage("ID CADASTRADO = " + data.Id + "\n" + "PRODUTO CADASTRADO = " + data.Name)
       })
