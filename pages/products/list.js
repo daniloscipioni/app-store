@@ -1,6 +1,6 @@
-
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import ListProducts from './components/list'
 function List({ }) {
   const [products, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
@@ -19,31 +19,13 @@ function List({ }) {
 
   return (
     <div>
+      <div>
       <Link href="/products/register">Criar novo produto</Link>
-      <table border={1}>
-        <thead>
-          <tr>
-            <td>Id</td>
-            <td>Descrição</td>
-            <td>Código do produto</td>
-          </tr>
-        </thead>
-        <tbody>
-          
-
-          {products.map(product=>(
-            <tr key={product.Id}>
-              <td>{product.Id}</td>
-              <td>{product.Description}</td>
-              <td>{product.ProductNumber}</td>
-              </tr>
-              ))}
-          
-        </tbody>
-      </table>
       <Link href="/">Voltar</Link>
+      </div>
+      <ListProducts products={products}/>
+ 
     </div>
-    
   )
 }
 
