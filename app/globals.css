@@ -40,6 +40,8 @@ header {
 header div {
   line-height: 100%;
   width: 100%;
+  font-weight: bold;
+  font-size: x-large;
 }
 
 header div a {
@@ -73,4 +75,40 @@ table thead{
 }
 table tbody{
   text-align: center;
+}
+
+form{
+  text-align: center;
+  width: 50%;
+  background-color: rgb(173, 174, 184);
+  border-radius: 5px;
+  text-align: center;
+}
+form label{
+  font-weight: bold;
+  display: table;
+}
+
+form div{
+  margin: 10px;
+  display: table;
+  width: 100px;
+}
+
+form input{
+  border-radius: 5px;
+}
+form select{
+  border-radius: 5px;
+}
+
+h1{
+  font-size: 30px;
+  text-align: center;
+}
+
+article div{
+  text-align: center;
+  margin: 15px;
+  font-size: 8ch;
 }

@@ -24,6 +24,7 @@ function List() {
     <div>
       <div>
       <Link href="/orders/register">Criar nova ordem</Link>
+      |
       <Link href="/">Voltar</Link>
       </div>
       

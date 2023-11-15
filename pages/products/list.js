@@ -21,6 +21,7 @@ function List({ }) {
     <div>
       <div>
       <Link href="/products/register">Criar novo produto</Link>
+      |
       <Link href="/">Voltar</Link>
       </div>
       <ListProducts products={products}/>

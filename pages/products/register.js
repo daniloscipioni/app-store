@@ -11,7 +11,6 @@ export default function Product() {
   const handleInput = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
-
     setFormData((prevState) => ({
       ...prevState,
       [fieldName]: fieldValue
@@ -23,11 +22,11 @@ export default function Product() {
     e.preventDefault()
 
     const formURL = e.target.action
-
+    const product = new ProductType(formData.name,formData.description)
     // POST the data to the URL of the form
     fetch(formURL, {
       method: "POST",
-      body: JSON.stringify(formData),
+      body: product.serialize(),
       headers: {
         'accept': 'application/json',
       },
@@ -49,6 +48,7 @@ export default function Product() {
           
         </div>
         :
+        <div>
         <form method="POST" action="http://localhost:8081/v1/products" onSubmit={submitForm}>
           <div>
             <label>Name</label>
@@ -60,9 +60,10 @@ export default function Product() {
             <input type="text" name="description" onChange={handleInput} value={formData.description} />
           </div>
 
-          <button type="submit">Criar produto</button>
-          <Link href="/products/list">Voltar</Link>
+          <button type="submit">Cadastrar produto</button>
         </form>
+        <Link href="/products/list">Voltar</Link>
+        </div>
       }
       
     </div>

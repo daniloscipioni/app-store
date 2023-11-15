@@ -1,16 +1,16 @@
 import React, { useState } from "react"
 import Link from 'next/link'
-import List from "./list";
 import OrdersType from './types'
+import Select from '../../components/select'
 export default function Order() {
   const [formData, setFormData] = useState({OrdersType});
 
   const [formSuccess, setFormSuccess] = useState(false)
   const [formSuccessMessage, setFormSuccessMessage] = useState("")
+
   const handleInput = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
-
     setFormData((prevState) => ({
       ...prevState,
       [fieldName]: fieldValue
@@ -21,26 +21,11 @@ export default function Order() {
     // We don't want the page to refresh
     e.preventDefault()
     const formURL = e.target.action
-
+    const order = new OrdersType({productCode:formData.productCode,amount:formData.amount,value:formData.value},{ipi:formData.ipi,icms:formData.icms,iss:formData.iss})
     // POST the data to the URL of the form
     fetch(formURL, {
       method: "POST",
-      body: JSON.stringify(
-        {
-        "product":
-        {
-          "product_code": parseInt(formData.productCode),
-          "amount": parseInt(formData.amount),
-          "value": parseFloat(formData.value),
-        },
-        "taxes":
-        {
-          "ipi": parseFloat(formData.ipi),
-          "icms": parseFloat(formData.icms),
-          "iss": parseFloat(formData.iss)
-        }
-     }
-     ),
+      body: order.serialize(),
       headers: {
         'accept': 'application/json',
       },
@@ -50,7 +35,7 @@ export default function Order() {
           OrdersType
         })
         setFormSuccess(true)
-        setFormSuccessMessage(data.Id)
+        setFormSuccessMessage("Order ID = " + data.Id)
       }).catch((err) => {
         setFormSuccess(true)
         setFormSuccessMessage("Erro de conexão -> " + err.message )
@@ -60,18 +45,22 @@ export default function Order() {
 
   return (
     <div>
+
       <h1>Order form</h1>
       {formSuccess ?
       <div>
-      {formSuccessMessage}
-      <Link href="/orders/list">Voltar</Link>
-      
+      {formSuccessMessage} 
+      <div> 
+        <p>
+        <Link href="/orders/list">Voltar</Link>
+        </p>
+      </div>
     </div>
         :
         <form method="POST" action="http://localhost:8080/v1/order" onSubmit={submitForm}>
           <div>
             <label>Product Code</label>
-            <input type="text" name="productCode" onChange={handleInput} value={formData.productCode} />
+            <Select name="productCode" onChange={handleInput} value={formData.productCode}></Select>
           </div>
           <div>
             <label>Amount</label>
