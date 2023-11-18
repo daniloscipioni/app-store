@@ -1,9 +1,11 @@
-type Product = {
-    name: string
-    stargazers_count: number
-  }
+export type Product = {
+  id:string,
+  product_number:number,
+  description:string,
+  name:string
+}
 
-export default class ProductType {
+export class ProductType {
     name: string;
     description:string;
     
@@ -24,4 +26,8 @@ export default class ProductType {
       }
 
  
+}
+
+export type Endpoints = {
+  getProducts:() => Promise<Product[]>
 }

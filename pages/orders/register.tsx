@@ -1,16 +1,38 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Link from 'next/link'
 import OrdersType from './types'
 import Select from '../../components/select'
+import ProductService from '../products/index'
+import Product from '../products/types'
+import { AxiosError } from 'axios' 
+import { useQuery } from 'react-query'
+import ProductType from "../products/types"
 export default function Order() {
   const [formData, setFormData] = useState({OrdersType});
 
   const [formSuccess, setFormSuccess] = useState(false)
   const [formSuccessMessage, setFormSuccessMessage] = useState("")
+  const [productList, setProductList] = useState<Product[]>([])
+  const ProductSvc = ProductService();
 
+  const {isFetching, error, refetch } = useQuery<Product[], AxiosError>(
+    [],
+    () => fetchProducts(),
+    {
+      retry:1,
+    }
+  )
+
+
+  async function fetchProducts(): Promise<Product[]>{
+    const products = await ProductSvc.getProducts();
+    setProductList(products)
+    return products
+  }
   const handleInput = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
+   
     setFormData((prevState) => ({
       ...prevState,
       [fieldName]: fieldValue
@@ -45,7 +67,7 @@ export default function Order() {
 
   return (
     <div>
-
+    
       <h1>Order form</h1>
       {formSuccess ?
       <div>
@@ -60,7 +82,7 @@ export default function Order() {
         <form method="POST" action="http://localhost:8080/v1/order" onSubmit={submitForm}>
           <div>
             <label>Product Code</label>
-            <Select name="productCode" onChange={handleInput} value={formData.productCode}></Select>
+            <Select name="productCode" onChange={handleInput} value={formData.productCode} products={productList.data}></Select>
           </div>
           <div>
             <label>Amount</label>

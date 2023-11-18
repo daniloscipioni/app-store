@@ -11,7 +11,7 @@ function ListProducts({ products }: ProductType) {
                 </tr>
             </thead>
             <tbody>
-
+        
             {products.map(product => (
             <tr key={product.Id}>
               <td>{product.Id}</td>
