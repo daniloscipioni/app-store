@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Link from 'next/link'
 import OrdersType from './types'
-import Select from '../../components/select'
+import SelectProducts from '../products/components/select'
 import ProductService from '../products/index'
 import Product from '../products/types'
 import { AxiosError } from 'axios' 
@@ -25,8 +25,9 @@ export default function Order() {
 
 
   async function fetchProducts(): Promise<Product[]>{
-    const products = await ProductSvc.getProducts();
-    setProductList(products)
+    const products = await ProductSvc.getProducts();    
+    setProductList(products.data)
+    
     return products
   }
   const handleInput = (e) => {
@@ -67,7 +68,6 @@ export default function Order() {
 
   return (
     <div>
-    
       <h1>Order form</h1>
       {formSuccess ?
       <div>
@@ -82,7 +82,7 @@ export default function Order() {
         <form method="POST" action="http://localhost:8080/v1/order" onSubmit={submitForm}>
           <div>
             <label>Product Code</label>
-            <Select name="productCode" onChange={handleInput} value={formData.productCode} products={productList.data}></Select>
+            <SelectProducts  name="productCode" onChange={handleInput} products={productList} ></SelectProducts>
           </div>
           <div>
             <label>Amount</label>

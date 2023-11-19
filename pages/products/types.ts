@@ -1,8 +1,8 @@
 export type Product = {
-  id:string,
-  product_number:number,
-  description:string,
-  name:string
+  Id:string,
+  ProductNumber:number,
+  Description:string,
+  Name:string
 }
 
 export class ProductType {
