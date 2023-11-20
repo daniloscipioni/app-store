@@ -1,7 +1,7 @@
 
 import React, { useState } from "react"
 import Link from 'next/link'
-import ProductType from './types'
+import {ProductType} from './types'
 export default function Product() {
   const [formData, setFormData] = useState({ProductType});
 

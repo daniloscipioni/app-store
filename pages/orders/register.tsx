@@ -14,7 +14,7 @@ export default function Order() {
   const [formSuccessMessage, setFormSuccessMessage] = useState("")
   const [productList, setProductList] = useState<Product[]>([])
   const ProductSvc = ProductService();
-
+  const [resultProdCode, setResultProdCode] = useState('')
   const {isFetching, error, refetch } = useQuery<Product[], AxiosError>(
     [],
     () => fetchProducts(),
@@ -30,21 +30,27 @@ export default function Order() {
     
     return products
   }
+  
+
   const handleInput = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
-   
+    
     setFormData((prevState) => ({
       ...prevState,
       [fieldName]: fieldValue
     }));
   }
+  
+ const updateResultProdCode = r => {
+  setResultProdCode(r)
+ }
 
   const submitForm = (e) => {
     // We don't want the page to refresh
     e.preventDefault()
     const formURL = e.target.action
-    const order = new OrdersType({productCode:formData.productCode,amount:formData.amount,value:formData.value},{ipi:formData.ipi,icms:formData.icms,iss:formData.iss})
+    const order = new OrdersType({productCode:resultProdCode,amount:formData.amount,value:formData.value},{ipi:formData.ipi,icms:formData.icms,iss:formData.iss})
     // POST the data to the URL of the form
     fetch(formURL, {
       method: "POST",
@@ -82,7 +88,7 @@ export default function Order() {
         <form method="POST" action="http://localhost:8080/v1/order" onSubmit={submitForm}>
           <div>
             <label>Product Code</label>
-            <SelectProducts  name="productCode" onChange={handleInput} products={productList} ></SelectProducts>
+            <SelectProducts  name="productCode" products={productList} handleResult={updateResultProdCode}></SelectProducts>
           </div>
           <div>
             <label>Amount</label>

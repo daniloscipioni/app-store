@@ -2,10 +2,10 @@ import ProductType from '../types';
 import React, { useState } from "react"
 
 
-function SelectProducts({ products }: ProductType) {
-    
+const SelectProducts =  props  => {
     const [product, setProduct] = useState('');
     const handleChange = (event) => {
+        props.handleResult(event.target.value)
         setProduct(event.target.value);
       };
     return (
@@ -13,7 +13,7 @@ function SelectProducts({ products }: ProductType) {
            {
             <select name="productCode" onChange={handleChange} value={product} >
                 <option>Selecione um produto</option>
-                 {products.map(product => (
+                 {props.products.map(product => (
                     <option key={product.Id} value={product.ProductNumber}>{product.Description}</option>
                 ))}
             </select>
