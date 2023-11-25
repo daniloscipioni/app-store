@@ -1,8 +1,8 @@
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import ListOrders from './components/list'
-import OrdersType from './types'
+import {OrdersType} from './types'
 import OrderService from './index'
 import { AxiosError } from 'axios' 
 import { useQuery } from 'react-query'
@@ -19,7 +19,6 @@ function List() {
     }
   )
 
-
   async function fetchOrders(): Promise<OrdersType[]>{
     const orders = await OrderSvc.getOrders();    
     setOrdersList(orders.data)
@@ -27,16 +26,6 @@ function List() {
     return orders
   }
 
-
-  // useEffect(() => {
-  //   fetch('http://localhost:8080/v1/order')
-  //     .then((res) => res.json())
-  //     .then((orders) => {
-  //       console.log(orders);
-  //       setData(orders)
-  //       setLoading(false)
-  //     })
-  // }, [])
 
   if (isLoading) return <p>Loading...</p>
   if (!ordersList) return <p>No orders data</p>
