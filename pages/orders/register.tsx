@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import Link from 'next/link'
-import OrdersType from './types'
+import {OrdersType} from './types'
 import SelectProducts from '../products/components/select'
 import ProductService from '../products/index'
-import Product from '../products/types'
+import {Product} from '../products/types'
 import { AxiosError } from 'axios' 
 import { useQuery } from 'react-query'
 import ProductType from "../products/types"

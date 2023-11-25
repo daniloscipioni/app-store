@@ -1,6 +1,4 @@
-import internal from "stream";
-
-export default class OrdersType {
+export class OrdersType {
   product: product;
   taxes: taxes;
 
@@ -45,3 +43,6 @@ interface taxes {
   iss: number
 }
 
+export type Endpoints = {
+  getOrders:() => Promise<OrdersType[]>
+}

@@ -1,4 +1,4 @@
-import OrdersType from '@/pages/orders/types';
+import OrdersType from '../types';
 
 function ListOrders({ orders }: OrdersType) {
     return (
