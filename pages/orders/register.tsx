@@ -50,7 +50,18 @@ export default function Order() {
     // We don't want the page to refresh
     e.preventDefault()
     const formURL = e.target.action
-    const order = new OrdersType({productCode:resultProdCode,amount:formData.amount,value:formData.value},{ipi:formData.ipi,icms:formData.icms,iss:formData.iss})
+    const order = new OrdersType({
+      productCode:resultProdCode,
+      amount:formData.amount,
+      value:formData.value,
+      taxes:{
+        ipi:formData.ipi,
+        icms:formData.icms,
+        iss:formData.iss
+      }
+       
+    }
+      )
     // POST the data to the URL of the form
     fetch(formURL, {
       method: "POST",

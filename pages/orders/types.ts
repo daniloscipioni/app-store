@@ -1,10 +1,8 @@
 export class OrdersType {
   product: product;
-  taxes: taxes;
-
-  constructor(product: product, taxes: taxes) {
+  
+  constructor(product: product) {
     this.product = product;
-    this.taxes = taxes
   }
 
   private toObject() {
@@ -14,13 +12,14 @@ export class OrdersType {
         "product_code": parseInt(this.product.productCode),
         "amount": parseInt(this.product.amount),
         "value": parseFloat(this.product.value),
+         "taxes":{
+           "ipi": parseFloat(this.product.taxes.ipi),
+           "icms": parseFloat(this.product.taxes.icms),
+           "iss": parseFloat(this.product.taxes.iss)
+         }
       },
-      "taxes":
-      {
-        "ipi": parseFloat(this.taxes.ipi),
-        "icms": parseFloat(this.taxes.icms),
-        "iss": parseFloat(this.taxes.iss)
-      }
+      
+      
     }
   }
 
@@ -34,13 +33,12 @@ export class OrdersType {
 interface product {
   productCode: number;
   amount: number;
-  value: number
-}
-
-interface taxes {
-  ipi: number;
-  icms: number;
-  iss: number
+  value: number;
+  taxes: {
+    ipi: number;
+    icms: number;
+    iss: number;
+  };
 }
 
 export type Endpoints = {
